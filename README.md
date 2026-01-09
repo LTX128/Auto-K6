@@ -1,4 +1,39 @@
 # Auto-K6
+<p align="center">
+  <img src="icon.ico" alt="Auto-K6 V2 Logo" width="150">
+</p>
+
+<p align="center">
+  <strong>A free and powerful load testing tool. Automate k6 tests with a simple CLI or an advanced GUI (V2). Perfect for stress testing websites and web applications.</strong>
+</p>
+
+<p align="center">
+  <a href="https://auto-k6.surge.sh">
+    <img src="https://img.shields.io/badge/Website-Live-brightgreen" alt="Website">
+  </a>
+  <img src="https://img.shields.io/github/v/release/LTX128/Auto-K6" alt="GitHub release (latest by date)">
+  <img src="https://img.shields.io/github/downloads/LTX128/Auto-K6/total" alt="GitHub all releases">
+</p>
+
+---
+
+## 🖼️ Preview
+
+### Basic Version (CLI)
+A lightweight and fast command-line interface for quick tests.
+
+<p align="center">
+  <img src="Auto-K6.png" alt="Auto-K6 Basic Version Screenshot" width="700">
+</p>
+
+### V2 Version (Advanced GUI)
+A feature-rich graphical interface for in-depth analysis and control.
+
+<p align="center">
+  <img src="Auto-K6-V2.png" alt="Auto-K6 V2 Version Screenshot" width="700">
+</p>
+
+---
 
 A simple and powerful tool for load testing on your websites and applications.
 
