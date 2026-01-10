@@ -59,7 +59,7 @@ Available in two versions to meet all your needs:
 
 ## ⬇️ Download
 
-Download the version that best suits your needs directly from our website :
+Download the version that best suits your needs directly from mywebsite :
 **[https://auto-k6.surge.sh](https://auto-k6.surge.sh)**
 
 ## 📖 Usage
