@@ -23,15 +23,18 @@ logo = """\033[34m
 | $$  | $$|  $$$$$$/  |  $$$$/|  $$$$$$/        | $$ \  $$|  $$$$$$/
 |__/  |__/ \______/    \___/   \______/         |__/  \__/ \______/                                       
                                                                     
-            Made by LTX74 - https://
+            Made by LTX74 - https://auto-k6.surge.sh
 
 \033[34m---------------------------------------------------------------------------\033[0m
 \033[31m| This is Auto-K6, a load testing tool.\033[0m
-\033[33m| For more information, visit : https://\033[0m
+\033[33m| For more information, visit : https://auto-k6.surge.sh\033[0m
 \033[34m---------------------------------------------------------------------------\033[0m
 """
 
 os.system('cls' if os.name == 'nt' else 'clear')
+
+time.sleep(1)
+webbrowser.open("https://auto-k6.surge.sh")
 
 time.sleep(2)
 print(logo)
@@ -173,4 +176,5 @@ def main():
     os.execl(python, python, *sys.argv)
 
 if __name__ == "__main__":
+
     main()
