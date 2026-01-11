@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- ================================================================== -->
+    <meta property="og:title" content="Auto-K6 - Free and Advanced Load Testing">
+    <meta property="og:description" content="Auto-K6 is an extreme load testing tool for website completly free ! Made with ❤️ by LTX">
+    <meta property="og:image" content="preview.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Preview of Auto-K6 Free and V2 tools">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Auto-K6">
+    <!-- ================================================================= -->
+
+    <title>Auto-K6 - Free and Advanced Load Testing</title>
+    <link rel="icon" type="image/x-icon" href="v.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #9c27b0;
+            --secondary-color: #6a1b9a;
+            --accent-color: #ff4081;
+            --dark-color: #1a1a2e;
+            --light-color: #f5f5f5;
+            --text-color: #333;
+            --gradient: linear-gradient(135deg, #9c27b0, #6a1b9a);
+            --gradient-alt: linear-gradient(135deg, #ff4081, #9c27b0);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            overflow-x: hidden;
+            background-color: #0a0a0a;
+            position: relative;
+        }
+
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background: var(--primary-color);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .grid-lines {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(156, 39, 176, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(156, 39, 176, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: grid-move 10s linear infinite;
+        }
+
+        @keyframes grid-move {
+            0% {
+                transform: translate(0, 0);
+            }
+            100% {
+                transform: translate(50px, 50px);
+            }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: rgba(26, 26, 46, 0.8);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(156, 39, 176, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            background-color: rgba(26, 26, 46, 0.95);
+            padding: 10px 0;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo::before {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient);
+            transition: width 0.3s ease;
+        }
+
+        .logo:hover::before {
+            width: 100%;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            color: var(--primary-color);
+            font-size: 28px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                text-shadow: 0 0 0 rgba(156, 39, 176, 0.7);
+            }
+            70% {
+                transform: scale(1.05);
+                text-shadow: 0 0 10px rgba(156, 39, 176, 0);
+            }
+            100% {
+                transform: scale(1);
+                text-shadow: 0 0 0 rgba(156, 39, 176, 0);
+            }
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+            position: relative;
+        }
+
+        .nav-links li::before {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links li:hover::before {
+            width: 100%;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+            display: inline-block;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+        
+        .mobile-menu {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: white;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: var(--gradient);
+            padding: 120px 0 80px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+        
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none"/><path d="M0,0 L100,100 M100,0 L0,100" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
+            animation: pulse-bg 8s infinite alternate;
+        }
+
+        @keyframes pulse-bg {
+            0% {
+                opacity: 0.3;
+            }
+            100% {
+                opacity: 0.7;
+            }
+        }
+        
+        .hero-content {
+            display: flex;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-text {
+            flex: 1;
+            padding-right: 40px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            backdrop-filter: blur(5px);
+            animation: float-badge 3s infinite ease-in-out;
+        }
+
+        @keyframes float-badge {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        .hero-text h1 {
+            font-size: 60px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            background: linear-gradient(to right, #ffffff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            }
+            to {
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(156, 39, 176, 0.5);
+            }
+        }
+        
+        .hero-text p {
+            font-size: 20px;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            max-width: 600px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 15px 35px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-alt);
+            z-index: -1;
+            transition: all 0.3s;
+            transform: translateX(-100%);
+        }
+
+        .btn:hover::before {
+            transform: translateX(0);
+        }
+        
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid white;
+        }
+
+        .btn-outline::before {
+            background: white;
+        }
+
+        .btn-outline:hover {
+            color: var(--primary-color);
+        }
+
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            animation: float-image 6s infinite ease-in-out;
+        }
+
+        @keyframes float-image {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(2deg);
+            }
+        }
+
+        .hero-image::before {
+            content: "";
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: var(--gradient);
+            border-radius: 25px;
+            z-index: -1;
+            filter: blur(20px);
+            opacity: 0.7;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 100px 0;
+            background-color: #0a0a0a;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .features::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(156, 39, 176, 0.1) 0%, rgba(0, 0, 0, 0) 50%);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 80px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-title h2 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-title p {
+            font-size: 18px;
+            color: #ccc;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-card {
+            background: rgba(26, 26, 46, 0.7);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(156, 39, 176, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .feature-card:hover::before {
+            opacity: 0.1;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(156, 39, 176, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .feature-card h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .feature-card p {
+            color: #ccc;
+            line-height: 1.6;
+        }
+        
+        /* Comparison Section */
+        .comparison {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .comparison::before, .comparison::after {
+            content: "";
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: var(--gradient);
+            border-radius: 50%;
+            opacity: 0.1;
+            filter: blur(50px);
+        }
+        .comparison::before { top: -100px; right: -100px; }
+        .comparison::after { bottom: -100px; left: -100px; }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .comparison-card {
+            background: rgba(26, 26, 46, 0.8);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(156, 39, 176, 0.2);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            min-height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .comparison-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .comparison-card:hover::before {
+            opacity: 0.1;
+        }
+
+        .comparison-card.popular {
+            transform: scale(1.05);
+            border: 2px solid var(--primary-color);
+            box-shadow: 0 0 30px rgba(156, 39, 176, 0.3);
+        }
+
+        .comparison-card.popular::before {
+            opacity: 0.05;
+        }
+        
+        .comparison-badge {
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gradient);
+            color: white;
+            padding: 8px 30px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 700;
+            box-shadow: 0 10px 20px rgba(156, 39, 176, 0.3);
+            animation: pulse-badge 2s infinite;
+        }
+        
+        .comparison-title {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .comparison-card.free .comparison-title { color: #4CAF50; }
+        .comparison-card.popular .comparison-title { background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        
+        .comparison-price {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+        .comparison-card.free .comparison-price { color: #4CAF50; }
+        .comparison-card.popular .comparison-price { background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        
+        .comparison-price span {
+            font-size: 18px;
+            font-weight: 400;
+            color: #666;
+            -webkit-text-fill-color: #666;
+        }
+        
+        .comparison-description {
+            font-size: 16px;
+            color: #ccc;
+            margin-bottom: 30px;
+            flex-grow: 1;
+        }
+        
+        .comparison-features {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 30px;
+            flex-grow: 1;
+        }
+        
+        .comparison-features li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            font-size: 15px;
+            color: #ccc;
+        }
+        
+        .comparison-features i {
+            margin-right: 10px;
+            font-size: 18px;
+            min-width: 18px;
+        }
+        .comparison-features .fa-check-circle { color: #4CAF50; }
+        .comparison-features .fa-times-circle { color: #f44336; }
+
+        .comparison-btn {
+            display: inline-block;
+            width: 100%;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .comparison-btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-alt);
+            z-index: -1;
+            transition: all 0.3s;
+            transform: translateX(-100%);
+        }
+
+        .comparison-btn:hover::before {
+            transform: translateX(0);
+        }
+
+        .comparison-card.free .comparison-btn {
+            background: #4CAF50;
+            color: white;
+            border: 2px solid #4CAF50;
+        }
+        .comparison-card.free .comparison-btn:hover {
+            background: transparent;
+            color: #4CAF50;
+        }
+
+        .comparison-card.popular .comparison-btn {
+            background: var(--gradient);
+            color: white;
+            border: 2px solid transparent;
+        }
+        .comparison-card.popular .comparison-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(156, 39, 176, 0.4);
+        }
+        
+        /* Preview Section */
+        .preview {
+            padding: 100px 0;
+            background-color: #0a0a0a;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .preview::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 80% 20%, rgba(255, 64, 129, 0.1) 0%, rgba(0, 0, 0, 0) 50%);
+        }
+        
+        .preview-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .preview-tabs {
+            display: flex;
+            margin-bottom: 30px;
+            background-color: rgba(26, 26, 46, 0.7);
+            border-radius: 50px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(156, 39, 176, 0.2);
+        }
+        
+        .tab {
+            padding: 15px 30px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            color: #ccc;
+            position: relative;
+        }
+
+        .tab::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient);
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: -1;
+        }
+        
+        .tab.active {
+            background: var(--gradient);
+            color: white;
+        }
+
+        .tab:hover:not(.active) {
+            color: white;
+        }
+
+        .tab:hover:not(.active)::before {
+            opacity: 0.3;
+        }
+        
+        .preview-content {
+            width: 100%;
+            background-color: rgba(26, 26, 46, 0.7);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(156, 39, 176, 0.2);
+            position: relative;
+        }
+
+        .preview-content::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient);
+            opacity: 0.05;
+            z-index: -1;
+        }
+        
+        .preview-image {
+            width: 100%;
+            display: none;
+            border-radius: 20px;
+            transition: all 0.5s ease;
+        }
+        
+        .preview-image.active {
+            display: block;
+            animation: fade-in 0.5s ease;
+        }
+
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        /* Contact Section */
+        .contact {
+            padding: 100px 0;
+            background: var(--gradient);
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none"/><path d="M0,0 L100,100 M100,0 L0,100" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .contact h2 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .contact p {
+            font-size: 20px;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .contact-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .contact-btn {
+            display: flex;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: white;
+            color: var(--primary-color);
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .contact-btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-alt);
+            z-index: -1;
+            transition: all 0.3s;
+            transform: translateX(-100%);
+        }
+
+        .contact-btn:hover::before {
+            transform: translateX(0);
+        }
+
+        .contact-btn:hover {
+            color: white;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .contact-btn i {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 50px 0 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 0%, rgba(156, 39, 176, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .footer-logo i {
+            margin-right: 10px;
+            color: var(--primary-color);
+            font-size: 28px;
+        }
+        
+        .footer-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-left: 20px;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .footer-links a::before {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient);
+            transition: width 0.3s ease;
+        }
+
+        .footer-links a:hover::before {
+            width: 100%;
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .footer-copyright {
+            margin-top: 30px;
+            font-size: 14px;
+            opacity: 0.7;
+            position: relative;
+            z-index: 1;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            margin: 0 10px;
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--gradient);
+            transform: translateY(-5px);
+        }
+        
+        /* Scroll Progress Bar */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: rgba(255, 255, 255, 0.1);
+            z-index: 1001;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--gradient);
+            width: 0%;
+            transition: width 0.2s ease;
+        }
+
+        /* Scroll to Top Button */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .scroll-top.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .mobile-menu { display: block; }
+            .hero-text h1 { font-size: 36px; }
+            .comparison-grid { grid-template-columns: 1fr; }
+            .comparison-card.popular { transform: scale(1); }
+            .footer-content { flex-direction: column; gap: 20px; }
+            
+            /* Mobile improvements */
+            .container { padding: 0 15px; }
+            .hero { padding: 100px 0 60px; }
+            .hero-text h1 { font-size: 32px; line-height: 1.3; }
+            .hero-text p { font-size: 16px; margin-bottom: 25px; }
+            .btn { padding: 12px 25px; font-size: 14px; }
+            .comparison { padding: 60px 0; }
+            .comparison-card { padding: 30px 20px; }
+            .comparison-title { font-size: 24px; }
+            .comparison-price { font-size: 36px; }
+            .comparison-price span { font-size: 14px; }
+            .comparison-features li { font-size: 14px; margin-bottom: 10px; }
+            .comparison-btn { padding: 12px 20px; font-size: 14px; }
+            .preview { padding: 60px 0; }
+            .preview-tabs { width: 100%; }
+            .tab { padding: 10px 15px; font-size: 14px; flex: 1; text-align: center; }
+            .contact { padding: 60px 0; }
+            .contact h2 { font-size: 32px; }
+            .contact p { font-size: 16px; }
+            .contact-btn { padding: 12px 20px; font-size: 14px; }
+            .section-title h2 { font-size: 36px; }
+            .features { padding: 60px 0; }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-text h1 { font-size: 28px; }
+            .hero-text p { font-size: 15px; }
+            .btn { padding: 10px 20px; font-size: 13px; }
+            .comparison-card { padding: 25px 15px; }
+            .comparison-title { font-size: 22px; }
+            .comparison-price { font-size: 32px; }
+            .comparison-features li { font-size: 13px; }
+            .comparison-btn { padding: 10px 15px; font-size: 13px; }
+            .contact h2 { font-size: 28px; }
+            .contact p { font-size: 15px; }
+            .contact-btn { padding: 10px 15px; font-size: 13px; }
+            .section-title h2 { font-size: 30px; }
+            .feature-icon { font-size: 40px; }
+            .feature-card h3 { font-size: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="grid-lines"></div>
+        <!-- Particles will be added dynamically with JavaScript -->
+    </div>
+
+    <!-- Scroll Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <div class="scroll-top" id="scrollTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+    
+    <!-- Header -->
+    <header id="header">
+        <nav class="container">
+            <a href="#" class="logo">
+                <i class="fas fa-bolt"></i>
+                Auto-K6
+            </a>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#comparison">Compare versions</a></li>
+                <li><a href="#preview">Preview</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="mobile-menu" id="mobileMenu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <div class="hero-badge">NEW 2026</div>
+                    <h1>Auto-K6</h1>
+                    <h2>By LTX74</h2>
+                    <br>
+                    <p>The ultimate tool to test the load of your websites. Simple, powerful and free.</p>
+                    <div class="hero-buttons">
+                        <a href="#comparison" class="btn">Download now</a>
+                        <a href="#preview" class="btn btn-outline">See preview</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="v.ico" alt="Auto-K6 V2 Interface">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Powerful Features</h2>
+                <p>Discover all the features that make Auto-K6 V2 the most powerful load testing tool on the market</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3>Ultra-Fast Tests</h3>
+                    <p>Launch complex load tests in just a few clicks thanks to our advanced optimization technology.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Detailed Analysis</h3>
+                    <p>Get complete reports with interactive charts to analyze performance in depth.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Security Scan</h3>
+                    <p>Identify vulnerabilities in your site with our integrated security scanner (available in V2).</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <h3>Complete History</h3>
+                    <p>Track the evolution of your site's performance over time with test history (V2).</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3>IP Tests</h3>
+                    <p>Simulate loads from different IP addresses for more realistic tests (available in V2).</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>24/7 Support</h3>
+                    <p>Benefit from priority support available at any time to help you optimize your tests.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Comparison Section -->
+    <section class="comparison" id="comparison">
+        <div class="container">
+            <div class="section-title">
+                <h2>Available Versions</h2>
+                <p>I am in no way responsible for your actions!</p>
+            </div>
+            <div class="comparison-grid">
+                <!-- Basic Version Card -->
+                <div class="comparison-card free">
+                    <h3 class="comparison-title">Basic Version</h3>
+                    <div class="comparison-price">Free</div>
+                    <p class="comparison-description">Ideal for quick tests and standard use.</p>
+                    <ul class="comparison-features">
+                        <li><i class="fas fa-check-circle"></i> Basic HTTP/HTTPS load tests</li>
+                        <li><i class="fas fa-check-circle"></i> Easy to use (terminal)</li>
+                        <li><i class="fas fa-check-circle"></i> Lightweight and fast to launch</li>
+                        <li><i class="fas fa-times-circle"></i> Max 6500 VUs</li>
+                        <li><i class="fas fa-times-circle"></i> Max 2 minutes per test</li>
+                        <li><i class="fas fa-times-circle"></i> Does not save history</li>
+                        <li><i class="fas fa-times-circle"></i> No IP address tests</li>
+                        <li><i class="fas fa-times-circle"></i> No security scan</li>
+                    </ul>
+                    <a href="Auto-K6.7z" class="comparison-btn" download="">
+                        <i class="fas fa-download"></i> DOWNLOAD BASIC
+                    </a>
+                </div>
+
+                <!-- Advanced Version Card -->
+                <div class="comparison-card popular">
+                    <div class="comparison-badge">RECOMMENDED</div>
+                    <h3 class="comparison-title">Advanced Version</h3>
+                    <div class="comparison-price">Free</div>
+                    <p class="comparison-description">The complete solution for in-depth analysis and unlimited usage.</p>
+                    <ul class="comparison-features">
+                        <li><i class="fas fa-check-circle"></i> Unlimited VUs and duration</li>
+                        <li><i class="fas fa-check-circle"></i> Advanced graphical interface</li>
+                        <li><i class="fas fa-check-circle"></i> 100% automatic installation</li>
+                        <li><i class="fas fa-check-circle"></i> Complete test history</li>
+                        <li><i class="fas fa-check-circle"></i> IP address tests</li>
+                        <li><i class="fas fa-check-circle"></i> Website security scan</li>
+                        <li><i class="fas fa-check-circle"></i> Site status check</li>
+                        <li><i class="fas fa-check-circle"></i> Priority 24/7 support</li>
+                        <li><i class="fas fa-check-circle"></i> Free lifetime updates</li>
+                    </ul>
+                    <a href="Auto-K6-V2.7z" class="comparison-btn" download="">
+                        <i class="fas fa-download"></i> DOWNLOAD V2
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Preview Section -->
+    <section class="preview" id="preview">
+        <div class="container">
+            <div class="section-title">
+                <h2>Interface Preview</h2>
+                <p>Discover the intuitive and powerful interface of the advanced version</p>
+            </div>
+            <div class="preview-container">
+                <div class="preview-tabs">
+                    <button class="tab active" onclick="showPreview(0)">Auto K6</button>
+                    <button class="tab" onclick="showPreview(1)">Auto K6 V2</button>
+                </div>
+                <div class="preview-content">
+                    <img src="Capture-1.png" alt="Auto-K6" class="preview-image active" id="preview-0">
+                    <img src="Capture-2.png" alt="Auto-K6 V2" class="preview-image" id="preview-1">
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2>Get Auto-K6 V2</h2>
+            <p>Ready to take it to the next level? Download Auto-K6 V2 now for free.</p>
+            <div class="contact-buttons">
+                <a href="https://t.me/LTX74" target="_blank" class="contact-btn">
+                    <i class="fab fa-telegram"></i>
+                    Contact me on Telegram
+                </a>
+                <a href="https://www.tiktok.com/@aro.x.74" target="_blank" class="contact-btn">
+                    <i class="fab fa-tiktok"></i>
+                    Follow me on TikTok
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <a href="#" class="footer-logo">
+                    <i class="fas fa-bolt"></i>
+                    Auto-K6
+                </a>
+                <ul class="footer-links">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#comparison">Compare</a></li>
+                    <li><a href="#preview">Preview</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="social-links">
+                <a href="https://t.me/LTX74" target="_blank">
+                    <i class="fab fa-telegram"></i>
+                </a>
+                <a href="https://www.tiktok.com/@aro.x.74" target="_blank">
+                    <i class="fab fa-tiktok"></i>
+                </a>
+                <a href="https://github.com/LTX128/Auto-K6" target="_blank">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+            <div class="footer-copyright">
+                <p>© 2026 Auto-K6 &amp; V2 | All rights reserved | Created by LTX74</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Create particles
+        function createParticles() {
+            const animatedBg = document.querySelector('.animated-bg');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random size
+                const size = Math.random() * 5 + 1;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Random position
+                const posX = Math.random() * 100;
+                particle.style.left = `${posX}%`;
+                
+                // Random animation duration and delay
+                const duration = Math.random() * 20 + 10;
+                const delay = Math.random() * 5;
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.animationDelay = `${delay}s`;
+                
+                // Random opacity
+                particle.style.opacity = Math.random() * 0.5 + 0.1;
+                
+                animatedBg.appendChild(particle);
+            }
+        }
+
+        // Initialize particles on page load
+        window.addEventListener('load', createParticles);
+
+        // Mobile menu toggle
+        const mobileMenu = document.getElementById('mobileMenu');
+        const navLinks = document.querySelector('.nav-links');
+        
+        mobileMenu.addEventListener('click', function() {
+            if (navLinks.style.display === 'flex') {
+                navLinks.style.display = 'none';
+            } else {
+                navLinks.style.display = 'flex';
+                navLinks.style.position = 'absolute';
+                navLinks.style.top = '60px';
+                navLinks.style.left = '0';
+                navLinks.style.width = '100%';
+                navLinks.style.flexDirection = 'column';
+                navLinks.style.backgroundColor = 'rgba(26, 26, 46, 0.95)';
+                navLinks.style.padding = '20px';
+                navLinks.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.3)';
+            }
+        });
+
+        // Preview tabs functionality
+        function showPreview(index) {
+            const tabs = document.querySelectorAll('.tab');
+            const previews = document.querySelectorAll('.preview-image');
+            
+            tabs.forEach(tab => tab.classList.remove('active'));
+            previews.forEach(preview => preview.classList.remove('active'));
+            
+            tabs[index].classList.add('active');
+            document.getElementById(`preview-${index}`).classList.add('active');
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    const headerHeight = document.getElementById('header').offsetHeight;
+                    const targetPosition = targetElement.offsetTop - headerHeight;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    if (navLinks.style.display === 'flex') {
+                        navLinks.style.display = 'none';
+                    }
+                }
+            });
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Progress bar
+        window.addEventListener('scroll', function() {
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollPercent = (scrollTop / scrollHeight) * 100;
+            
+            document.getElementById('progressBar').style.width = scrollPercent + '%';
+        });
+
+        // Scroll to top button
+        const scrollTopBtn = document.getElementById('scrollTop');
+        
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 300) {
+                scrollTopBtn.classList.add('active');
+            } else {
+                scrollTopBtn.classList.remove('active');
+            }
+        });
+        
+        scrollTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll('.feature-card, .comparison-card').forEach(el => {
+            el.style.opacity = 0;
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
