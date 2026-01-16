@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+    <!-- Icon en haut -->
+     <link rel="icon" type="image/png" href="/static/icon/icon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto-K6 V3 - Interface Web</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-text">
+                    <span class="logo-line">AUTO</span>
+                    <span class="logo-line">-K6</span>
+                    <span class="logo-line">V3</span>
+                </div>
+                <div class="logo-subtitle">LOAD TESTING TOOL</div>
+            </div>
+            <div class="status-indicator" id="k6Status">
+                <span class="status-dot" id="statusDot"></span>
+                <span class="status-text" id="statusText">Checking k6...</span>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="sidebar">
+                <nav class="nav-menu">
+                    <button class="nav-btn active" data-tab="dashboard">
+                        <i class="fas fa-home"></i> <span>Dashboard</span>
+                    </button>
+                    <button class="nav-btn" data-tab="url-test">
+                        <i class="fas fa-link"></i> <span>URL Test</span>
+                    </button>
+                    <button class="nav-btn" data-tab="ip-test">
+                        <i class="fas fa-network-wired"></i> <span>IP Test</span>
+                    </button>
+                    <button class="nav-btn" data-tab="history">
+                        <i class="fas fa-history"></i> <span>History</span>
+                    </button>
+                    <button class="nav-btn" data-tab="tools">
+                        <i class="fas fa-tools"></i> <span>Tools</span>
+                    </button>
+                    <button class="nav-btn" data-tab="settings">
+                        <i class="fas fa-cog"></i> <span>Settings</span>
+                    </button>
+                </nav>
+                
+                <div class="version-info">
+                    <div class="version">v3</div>
+                    <div class="author">by LTX74</div>
+                </div>
+            </div>
+
+            <div class="content-area">
+                <!-- Dashboard -->
+                <div class="tab-content active" id="dashboard">
+                    <div class="tab-header">
+                        <h1><i class="fas fa-tachometer-alt"></i> Dashboard</h1>
+                        <p>Welcome to Auto-K6 V3 Web Interface</p>
+                    </div>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fas fa-bolt"></i></div>
+                            <div class="stat-value" id="totalTests">0</div>
+                            <div class="stat-label">Total Tests</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fas fa-server"></i></div>
+                            <div class="stat-value" id="k6StatusText">Checking</div>
+                            <div class="stat-label">k6 Status</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                            <div class="stat-value" id="lastTest">--</div>
+                            <div class="stat-label">Last Test</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fas fa-shield-alt"></i></div>
+                            <div class="stat-value">V3</div>
+                            <div class="stat-label">Version</div>
+                        </div>
+                    </div>
+                    
+                    <div class="quick-actions">
+                        <h2><i class="fas fa-rocket"></i> Quick Actions</h2>
+                        <div class="actions-grid">
+                            <button class="action-btn" data-action="url-quick">
+                                <i class="fas fa-link"></i>
+                                <span>Quick URL Test</span>
+                            </button>
+                            <button class="action-btn" data-action="ip-quick">
+                                <i class="fas fa-network-wired"></i>
+                                <span>Quick IP Test</span>
+                            </button>
+                            <button class="action-btn" data-action="check-site">
+                                <i class="fas fa-globe"></i>
+                                <span>Check Site</span>
+                            </button>
+                            <button class="action-btn" data-action="view-history">
+                                <i class="fas fa-history"></i>
+                                <span>View History</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="recent-tests">
+                        <h2><i class="fas fa-list"></i> Recent Tests</h2>
+                        <div class="tests-list" id="recentTests">
+                            <div class="empty-state">No tests yet</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- URL Test -->
+                <div class="tab-content" id="url-test">
+                    <div class="tab-header">
+                        <h1><i class="fas fa-link"></i> URL Load Test</h1>
+                        <p>Test a website URL with k6</p>
+                    </div>
+                    
+                    <div class="config-form">
+                        <div class="form-group">
+                            <label for="url"><i class="fas fa-globe"></i> Target URL</label>
+                            <input type="text" id="url" placeholder="https://example.com" value="https://">
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="method"><i class="fas fa-exchange-alt"></i> HTTP Method</label>
+                                <select id="method">
+                                    <option value="GET">GET</option>
+                                    <option value="POST">POST</option>
+                                    <option value="PUT">PUT</option>
+                                    <option value="DELETE">DELETE</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="vus"><i class="fas fa-users"></i> Virtual Users</label>
+                                <input type="number" id="vus" value="10" min="1" max="10000">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="duration"><i class="fas fa-clock"></i> Duration</label>
+                            <input type="text" id="duration" value="10s" placeholder="30s, 1m, 5m">
+                            <small class="hint">Examples: 10s, 1m, 5m30s</small>
+                        </div>
+                        
+                        <div class="form-group" id="bodyGroup">
+                            <label for="body"><i class="fas fa-code"></i> JSON Body (POST/PUT only)</label>
+                            <textarea id="body" placeholder='{"key": "value"}' rows="4" disabled></textarea>
+                            <small class="hint">Only available for POST and PUT methods</small>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button class="btn btn-primary" id="runUrlTest">
+                                <i class="fas fa-play"></i> Run Test
+                            </button>
+                            <button class="btn btn-danger" id="stopUrlTest" style="display: none;">
+                                <i class="fas fa-stop"></i> Stop Test
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="test-output" id="urlOutput" style="display: none;">
+                        <div class="output-header">
+                            <h3><i class="fas fa-terminal"></i> Test Output</h3>
+                            <div class="output-status running">RUNNING</div>
+                        </div>
+                        <div class="output-content" id="urlOutputContent">
+                            <div class="loader">Starting test...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- IP Test -->
+                <div class="tab-content" id="ip-test">
+                    <div class="tab-header">
+                        <h1><i class="fas fa-network-wired"></i> IP Load Test</h1>
+                        <p>Test an IP address with k6</p>
+                    </div>
+                    
+                    <div class="config-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="ip"><i class="fas fa-map-marker-alt"></i> IP Address</label>
+                                <input type="text" id="ip" placeholder="192.168.1.1">
+                            </div>
+                            <div class="form-group">
+                                <label for="port"><i class="fas fa-plug"></i> Port</label>
+                                <input type="number" id="port" value="80" min="1" max="65535">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="protocol"><i class="fas fa-shield-alt"></i> Protocol</label>
+                                <select id="protocol">
+                                    <option value="http">HTTP</option>
+                                    <option value="https">HTTPS</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="hostHeader"><i class="fas fa-server"></i> Host Header (optional)</label>
+                                <input type="text" id="hostHeader" placeholder="example.com">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="ipMethod"><i class="fas fa-exchange-alt"></i> HTTP Method</label>
+                                <select id="ipMethod">
+                                    <option value="GET">GET</option>
+                                    <option value="POST">POST</option>
+                                    <option value="PUT">PUT</option>
+                                    <option value="DELETE">DELETE</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="ipVus"><i class="fas fa-users"></i> Virtual Users</label>
+                                <input type="number" id="ipVus" value="10" min="1" max="10000">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="ipDuration"><i class="fas fa-clock"></i> Duration</label>
+                            <input type="text" id="ipDuration" value="10s" placeholder="30s, 1m, 5m">
+                            <small class="hint">Examples: 10s, 1m, 5m30s</small>
+                        </div>
+                        
+                        <div class="form-group" id="ipBodyGroup">
+                            <label for="ipBody"><i class="fas fa-code"></i> JSON Body (POST/PUT only)</label>
+                            <textarea id="ipBody" placeholder='{"key": "value"}' rows="4" disabled></textarea>
+                            <small class="hint">Only available for POST and PUT methods</small>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button class="btn btn-primary" id="runIpTest">
+                                <i class="fas fa-play"></i> Run Test
+                            </button>
+                            <button class="btn btn-danger" id="stopIpTest" style="display: none;">
+                                <i class="fas fa-stop"></i> Stop Test
+                            </button>
+                            <button class="btn btn-secondary" id="resetIpForm">
+                                <i class="fas fa-redo"></i> Reset
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="test-output" id="ipOutput" style="display: none;">
+                        <div class="output-header">
+                            <h3><i class="fas fa-terminal"></i> Test Output</h3>
+                            <div class="output-status running">RUNNING</div>
+                        </div>
+                        <div class="output-content" id="ipOutputContent">
+                            <div class="loader">Starting test...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- History -->
+                <div class="tab-content" id="history">
+                    <div class="tab-header">
+                        <h1><i class="fas fa-history"></i> Test History</h1>
+                        <div>
+                            <button class="btn btn-secondary" id="clearHistory">
+                                <i class="fas fa-trash"></i> Clear
+                            </button>
+                            <button class="btn btn-secondary" id="refreshHistory">
+                                <i class="fas fa-sync-alt"></i> Refresh
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="history-table-container">
+                        <table class="history-table" id="historyTable">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Target</th>
+                                    <th>Method</th>
+                                    <th>VUs</th>
+                                    <th>Duration</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historyBody">
+                                <!-- Filled by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Tools -->
+                <div class="tab-content" id="tools">
+                    <div class="tab-header">
+                        <h1><i class="fas fa-tools"></i> Tools</h1>
+                        <p>Website analysis tools</p>
+                    </div>
+                    
+                    <div class="tools-grid">
+                        <div class="tool-card">
+                            <div class="tool-icon"><i class="fas fa-heartbeat"></i></div>
+                            <h3>Site Status Check</h3>
+                            <p>Check if a website is online</p>
+                            <div class="tool-form">
+                                <input type="text" id="siteCheckUrl" placeholder="https://example.com">
+                                <button class="btn btn-primary" id="checkSiteBtn">
+                                    <i class="fas fa-search"></i> Check
+                                </button>
+                            </div>
+                            <div class="tool-result" id="siteCheckResult">
+                                <!-- Results will appear here -->
+                            </div>
+                        </div>
+                        
+                        <div class="tool-card">
+                            <div class="tool-icon"><i class="fas fa-search"></i></div>
+                            <h3>Website Scanner</h3>
+                            <p>Scan website for information</p>
+                            <div class="tool-form">
+                                <input type="text" id="scanUrl" placeholder="https://example.com">
+                                <button class="btn btn-primary" id="scanSiteBtn">
+                                    <i class="fas fa-search"></i> Scan
+                                </button>
+                            </div>
+                            <div class="tool-result" id="scanResult">
+                                <!-- Results will appear here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings -->
+                <div class="tab-content" id="settings">
+                    <div class="tab-header">
+                        <h1><i class="fas fa-cog"></i> Settings</h1>
+                        <p>Configure Auto-K6 V3</p>
+                    </div>
+                    
+                    <div class="settings-grid">
+                        <div class="setting-card">
+                            <h3><i class="fas fa-download"></i> k6 Installation</h3>
+                            <p>Install or reinstall k6</p>
+                            <div class="setting-status">
+                                <span class="status-dot" id="settingStatusDot"></span>
+                                <span class="status-text" id="settingStatusText">Checking...</span>
+                            </div>
+                            <button class="btn btn-primary" id="installK6Btn">
+                                <i class="fas fa-download"></i> Install k6
+                            </button>
+                            <small class="hint">This may take a few minutes</small>
+                        </div>
+                        
+                        <div class="setting-card">
+                            <h3><i class="fas fa-palette"></i> Theme</h3>
+                            <p>Change interface theme</p>
+                            <div class="theme-selector">
+                                <button class="theme-option active" data-theme="dark" id="themeDark">
+                                    <div class="theme-preview dark"></div>
+                                    <span>Dark</span>
+                                </button>
+                                <button class="theme-option" data-theme="light" id="themeLight">
+                                    <div class="theme-preview light"></div>
+                                    <span>Light</span>
+                                </button>
+                                <button class="theme-option" data-theme="purple" id="themePurple">
+                                    <div class="theme-preview purple"></div>
+                                    <span>Purple</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-card">
+                            <h3><i class="fas fa-info-circle"></i> About</h3>
+                            <p>Auto-K6 V3 Web Interface</p>
+                            <div class="about-info">
+                                <p><strong>Version:</strong> 2.0.0</p>
+                                <p><strong>Author:</strong> LTX74</p>
+                                <p><strong>Website:</strong> <a href="https://k6.surge.sh" target="_blank">k6.surge.sh</a></p>
+                            </div>
+                            <div class="social-links">
+                                <a href="https://t.me/LTX74" target="_blank" class="social-link">
+                                    <i class="fab fa-telegram"></i> Telegram
+                                </a>
+                                <a href="https://www.tiktok.com/@aro.x.74" target="_blank" class="social-link">
+                                    <i class="fab fa-tiktok"></i> TikTok
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <span>Auto-K6 V3 © 2026 LTX</span>
+                    <span class="separator">|</span>
+                    <span>Web Interface v3</span>
+                </div>
+                <div class="footer-right">
+                    <span id="currentTime">--:--:--</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Modal for test details -->
+    <div id="testDetailsModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Test Details</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Content will be inserted here -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="closeModal">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/script.js"></script>
+</body>
+</html>
