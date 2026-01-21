@@ -1,7 +1,3 @@
-"""
-Auto-K6 V2 - Version adaptée pour interface web
-Conserve 100% de la logique originale
-"""
 import os
 import sys
 import subprocess
@@ -140,4 +136,5 @@ export default function () {{
     sleep(1);
 }}
 """
+
         return script
