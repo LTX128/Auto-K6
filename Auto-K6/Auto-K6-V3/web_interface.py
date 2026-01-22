@@ -9,7 +9,6 @@ import time
 import re
 import ipaddress
 from datetime import datetime
-import webbrowser
 import requests
 import socket
 import ssl
@@ -138,3 +137,4 @@ export default function () {{
 """
 
         return script
+
