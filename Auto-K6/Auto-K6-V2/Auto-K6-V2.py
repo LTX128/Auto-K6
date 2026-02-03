@@ -66,10 +66,8 @@ class K6Manager:
         print()
         try:
             if "windows" in self.os_name:
-                # Définition du chemin direct vers l'exécutable Chocolatey
                 choco_exe = r"C:\ProgramData\chocolatey\bin\choco.exe"
 
-                # Si choco n'est pas dans le PATH, on tente l'installation via PowerShell
                 if not shutil.which("choco"):
                     try:
                         subprocess.run(
@@ -649,3 +647,4 @@ if __name__ == "__main__":
         sys.exit(0)
 
 # Made by LTX74
+
